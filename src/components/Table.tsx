@@ -1,6 +1,6 @@
 import React, {FC} from 'react';
-import TableRow from "../elements/TableRow";
 import {Customer} from "../types/customer";
+import TableRow from "../elements/TableRow";
 
 const Table: FC<{customers: Customer[]}> = ({customers}) => {
 

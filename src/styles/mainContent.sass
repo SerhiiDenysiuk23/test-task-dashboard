@@ -120,3 +120,36 @@ main
     border: none
     outline: none
     padding-right: 1em
+
+@media screen and (max-width: 1280px)
+  main
+    padding: 41px 15px
+    margin: auto
+    width: fit-content
+    flex-grow: initial
+
+  .table-container
+    width: 100%
+    table
+      td, th
+        padding-right: 15px
+      &:nth-last-child(1)
+        padding-right: 0
+
+@media screen and (max-width: 1130px)
+  main
+    margin: 0 15px
+    white-space: nowrap
+
+@media screen and (max-width: 1000px)
+  main
+    margin: auto
+
+@media screen and (max-width: 860px)
+  .table-container
+    padding: 20px
+    box-shadow: 0 5px 30px rgba(226, 236, 249, 0.5)
+    overflow-x: auto
+    table
+      border-collapse: collapse
+      width: 100%

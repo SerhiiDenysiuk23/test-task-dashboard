@@ -1,8 +1,12 @@
-import React, {FC} from 'react';
+import React, {FC, useState} from 'react';
 import sprites from '../sprites.svg'
 import {User} from "../types/user";
 
 const SideBar: FC<{user: User}> = ({user}) => {
+    const [isOpen, setIsOpen] = useState(false);
+    const handleToggleMenu = () => {
+        setIsOpen(!isOpen);
+    };
     const navBtnList = [
         {iconId: './media/icons/key.png', name: 'Dashboard'},
         {iconId: './media/icons/cube.png', name: 'Product'},
@@ -13,7 +17,7 @@ const SideBar: FC<{user: User}> = ({user}) => {
     ]
 
     return (
-        <div className={'side-bar'}>
+        <div className={`side-bar  ${isOpen ? 'open' : ''}`}>
             <div className={'logo'}>
                 <img src="./media/logo.png" alt=""/>
                 <span className={'logo__main-text'}>Dashboard</span>
@@ -44,6 +48,12 @@ const SideBar: FC<{user: User}> = ({user}) => {
                     <div className="user__name">{user.name}</div>
                     <div className="user__position">{user.position}</div>
                 </div>
+            </div>
+
+            <div className="burger-menu" onClick={handleToggleMenu}>
+                <div className="burger-menu__line"/>
+                <div className="burger-menu__line"/>
+                <div className="burger-menu__line"/>
             </div>
         </div>
     );

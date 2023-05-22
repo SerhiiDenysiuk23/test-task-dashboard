@@ -1,19 +1,51 @@
 .side-bar
-  width: 306px
+  flex: 306px
+  max-width: 306px
   min-height: 100vh
   background: #FFFFFF
-  padding: 36px 28px
+  padding: 36px 28px 76px
+  display: flex
+  flex-direction: column
   position: relative
+  &.open .burger-menu__line:nth-child(1)
+    transform: rotate(45deg) translate(5px, 5px)
+  &.open .burger-menu__line:nth-child(2)
+    opacity: 0
+  &.open .burger-menu__line:nth-child(3)
+    transform: rotate(-45deg) translate(6px, -6px)
+
+.burger-menu
+  position: absolute
+  top: 10px
+  right: 10px
+  width: 30px
+  height: 20px
+  display: none
+  flex-direction: column
+  justify-content: space-between
+  cursor: pointer
+
+  .burger-menu__line
+    width: 100%
+    height: 3px
+    background-color: #000
+    border-radius: 2px
+    transition: all 0.3s
+
 
 .logo
+  white-space: nowrap
+
   img
     width: 30px
     height: 32px
     transform: translateY(20%)
+
   &__main-text
     font-size: 26px
     font-weight: 600
     margin-left: 0.4em
+
   &__version
     font-size: 10px
     color: #838383
@@ -21,6 +53,7 @@
 
 nav
   margin-top: 60px
+
   ul
     li
       width: 100%
@@ -29,12 +62,15 @@ nav
       display: flex
       position: relative
       cursor: pointer
+
       img
         width: 21px
         height: 21px
+
       span
         line-height: 21px
         margin-left: 1em
+
       .caret
         position: absolute
         height: 14px
@@ -43,6 +79,7 @@ nav
         right: 19px
         top: 50%
         transform: translateY(-50%)
+
       &.active
         color: #FFFFFF
         background: #5932EA
@@ -55,16 +92,91 @@ nav
   display: flex
   align-items: center
   gap: 12px
-  position: absolute
+  margin-top: auto
   bottom: 76px
+
   &__avatar
     width: 42px
     height: 42px
     border-radius: 50%
+
     img
       width: 100%
       height: 100%
       object-fit: cover
+
   &__position
     font-size: 12px
     color: #757575
+
+@media screen and (max-width: 1190px)
+  .side-bar
+    padding-right: 1em
+    padding-left: 1em
+
+
+@media screen and (max-width: 1060px)
+  .logo
+    img
+      width: 20px
+      height: 21.3px
+
+    &__main-text
+      font-size: 18px
+
+    &__version
+      font-size: 8px
+      margin-left: 2px
+
+
+  nav
+    ul
+      li
+        padding: 10px
+        border-radius: 6px
+
+        img
+          width: 18px
+          height: 18px
+
+        span
+          line-height: 18px
+          margin-left: 0.8em
+
+        .caret
+          height: 12px
+          width: 12px
+          right: 0.5em
+
+  .user
+    &__avatar
+      width: 32px
+      height: 32px
+
+    &__position
+      font-size: 10px
+
+@media screen and (max-width: 1000px)
+  .side-bar
+    position: fixed
+    left: 0
+    flex: initial
+    width: 50px
+    padding: 0
+
+    > *
+      display: none
+
+    &.open
+      width: 100%
+      padding: 36px 1em 76px
+
+      > *
+        display: block
+
+      .user
+        display: flex
+
+    .burger-menu
+      display: flex
+
