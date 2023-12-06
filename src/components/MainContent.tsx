@@ -43,7 +43,7 @@ const MainContent: FC<{ user: User }> = ({user}) => {
                 <Table customers={searchResults}/>
                 <div className={'after-table'}>
                     <div className={'showing-data'}>Showing data 1 to 8 of 256K entries</div>
-                    <Pagination currentPage={currentPage} onPageChange={handlePageChange} totalPages={40}/>
+                    <Pagination count={320} limit={8} setOffset={handlePageChange}/>
                 </div>
             </div>
         </main>

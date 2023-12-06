@@ -75,12 +75,11 @@ main
 
 .pagination
   display: flex
-  justify-content: space-between
   align-items: center
   width: fit-content
   gap: 12px
 
-  &__button
+  .page
     display: flex
     flex-direction: column
     justify-content: center
@@ -92,9 +91,9 @@ main
     border-radius: 4px
     color: #404B52
     cursor: pointer
-  &__button__active
-    background: #5932EA
-    color: #FFFFFF
+    &.active
+      background: #5932EA
+      color: #FFFFFF
   &__ellipsis
     font-weight: bold
 

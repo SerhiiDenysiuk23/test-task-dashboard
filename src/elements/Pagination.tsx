@@ -1,73 +1,75 @@
 import React, {FC} from 'react';
+import usePagination from "../hooks/usePagination";
 
 interface Props {
-    currentPage: number;
-    totalPages: number;
-    onPageChange: (page: number) => void;
+  limit: number,
+  count: number,
+
+  setOffset(index: number): void
 }
 
-const Pagination: FC<Props> = ({currentPage, totalPages,onPageChange}) => {
-    const renderPageButtons = () => {
-        const buttons: JSX.Element[] = [];
+const Pagination: React.FC<Props> = ({count, limit, setOffset}) => {
+  const {
+    offset,
+    nextPage,
+    prevPage,
+    page,
+    setPage,
+    totalPages,
+  } = usePagination({
+    limit: limit,
+    count,
+  })
 
-        let start = Math.max(1, currentPage - 2);
-        let end = Math.min(start + 3, totalPages);
+  React.useEffect(() => {
+    setOffset(offset);
+  }, [offset]);
 
-        if (end - start < 3) {
-            start = Math.max(1, end - 3);
-        }
 
-        for (let page = start; page <= end; page++) {
-            buttons.push(
-                <button
-                    key={page}
-                    className={`pagination__button${currentPage === page ? ' pagination__button__active' : ''}`}
-                    onClick={() => onPageChange(page)}
-                >
-                    {page}
-                </button>
-            );
-        }
+  const visiblePages: number[] = [];
+  const maxVisiblePages = 7;
+  const halfMaxVisiblePages = Math.floor(maxVisiblePages / 2);
 
-        if (end < totalPages) {
-            buttons.push(
-                <span key="ellipsis-end" className="pagination__ellipsis">
-          ...
-        </span>
-            );
 
-            buttons.push(
-                <button
-                    key={totalPages}
-                    className={`pagination__button${currentPage === totalPages ? ' pagination__button__active' : ''}`}
-                    onClick={() => onPageChange(totalPages)}
-                >
-                    {totalPages}
-                </button>
-            );
-        }
+  if (totalPages <= maxVisiblePages) {
+    visiblePages.push(...Array.from({ length: totalPages - 1 }, (_, i) => i + 1));
+  } else if (page <= halfMaxVisiblePages) {
+    visiblePages.push(...Array.from({ length: maxVisiblePages - 1 }, (_, i) => i + 1), -1, totalPages);
+  } else if (page > totalPages - halfMaxVisiblePages) {
+    visiblePages.push(1, -1, ...Array.from({ length: maxVisiblePages - 2 }, (_, i) => totalPages - maxVisiblePages + i + 1));
+  } else {
+    visiblePages.push(1, -1, ...Array.from({ length: maxVisiblePages - 4 }, (_, i) => page - halfMaxVisiblePages + i + 2), -1, totalPages);
+  }
 
-        return buttons;
-    };
-    return (
+  return (
+    <>
+      {totalPages > 1 ? (
         <div className="pagination">
-                <button
-                    className="pagination__button"
-                    disabled={currentPage === 1}
-                    onClick={() => onPageChange(currentPage - 1)}
-                >
-                &lt;
-            </button>
-            {renderPageButtons()}
-            <button
-                className="pagination__button"
-                disabled={currentPage === totalPages}
-                onClick={() => onPageChange(currentPage + 1)}
-            >
-                &gt;
-            </button>
+          <button onClick={prevPage} className="page">
+            {`<`}
+          </button>
+          {visiblePages.map((pageNumber, index) => (
+            <React.Fragment key={index}>
+              {
+                (pageNumber < 0)
+                  ? <span className="ellipsis">&hellip;</span>
+                  : <button
+                    onClick={() => setPage(pageNumber)}
+                    className={`page ${page === pageNumber ? "active" : ""}`}
+                  >
+                    {pageNumber}
+                  </button>
+
+              }
+            </React.Fragment>
+          ))}
+          <button onClick={nextPage} className="page">
+            {`>`}
+          </button>
         </div>
-    );
+      ) : null}
+    </>
+  );
 };
 
-export default Pagination;
+export default Pagination
